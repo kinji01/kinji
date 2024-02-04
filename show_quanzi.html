@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{$site[site_url]}favicon.ico" rel="icon">
+    <title>{$title}-{$site[site_name]}</title>
+    <link rel='stylesheet' href='{STATIC_URL}meishiu/css/app.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='{STATIC_URL}meishiu/css/default.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='{STATIC_URL}meishiu/css/pure-highlight.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='{STATIC_URL}meishiu/css/external.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='{STATIC_URL}meishiu/css/sweetalert2.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='{STATIC_URL}meishiu/css/diy.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='{STATIC_URL}meishiu/css/jquery.fancybox.min.css' type='text/css' media='all' />
+	<link rel="stylesheet" type="text/css" href="{STATIC_URL}meishiu/css/viewer.mini.css">
+    <script type='text/javascript' src='{STATIC_URL}meishiu/js/jquery-2.2.4.min.js'></script>
+    <script type='text/javascript' src='{STATIC_URL}meishiu/js/sweetalert2.min.js'></script>
+    <script type="text/javascript" src="{STATIC_URL}js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="{STATIC_URL}js/yzm-front.js"></script>
+	<!-- <script type="text/javascript" src="{STATIC_URL}js/jquery.qqFace.js"></script> -->
+    <script type="text/javascript" src="{STATIC_URL}meishiu/js/qrcode.min.js"></script>
+    <script type="text/javascript" src="{STATIC_URL}plugin/layer/layer.js"></script>
+    <meta name="keywords" content="{$keywords}">
+    <meta name="description" content="{$description}">
+    <style type="text/css">
+        @media (min-width: 1200px) {
+            .container,
+            .container-lg,
+            .container-md,
+            .container-sm,
+            .container-xl {
+                max-width: 1300px
+            }
+        }
+        
+        .footer-links {
+            text-align: center;
+        }
+    </style>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="{STATIC_URL}meishiu/js/html5shiv.js"></script>
+      <script src="{STATIC_URL}meishiu/js/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        if (("standalone" in window.navigator) && window.navigator.standalone) {
+            var noddy, remotes = false;
+            document.addEventListener('click', function(event) {
+                noddy = event.target;
+                while (noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
+                    noddy = noddy.parentNode;
+                }
+                if ('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes)) {
+                    event.preventDefault();
+                    document.location.href = noddy.href;
+                }
+
+            }, false);
+        }
+    </script>
+</head>
+{if intval(get_cookie('_userid'))==0}<body class="archive category category-6  max_width hfeed navbar-sticky navbar-slide sidebar-none pagination-infinite_button" onmousemove=/HideMenu()/ oncontextmenu="return false" ondragstart="return false" onselectstart ="return false" onselect="document.selection.empty()" oncopy="document.selection.empty()" onbeforecopy="return false" onmouseup="document.selection.empty()">{else}<body class="archive category category-6  max_width hfeed navbar-sticky navbar-slide sidebar-none pagination-infinite_button">{/if}
+    {m:include "index","header"}
+    <div class="header-gap">
+    </div>
+    <div class="site-content">
+        <div class="container">
+            <div class="breadcrumbs">
+              {get_location($catid)}
+            </div>
+            <div class="row">
+                <div class="content-column col-lg-9">
+                    <div class="content-area">
+                        <main class="site-main">
+                            <article class="article-content quanzi" id="yzmcms_viewer">
+                                        <header class="entry-header">
+                                            <div class="widget widget-userinfo">
+                                                <div class="author-card_content">
+                                                    <div class="author_avatar">
+                                                        <div class="col-auto">
+                                                            <a target="_blank" href="{U('member/myhome/init', array('userid'=>$userid))}" title="{$username}"><img alt='{$username}' title='{$username}' data-src="{get_memberavatar($userid)}" class='lazyload avatar avatar-96 photo qq' height='96' width='96' /></a>
+                                                        </div>
+                                                        <div class="col n2">
+                                                            <a title="{$username}">{$username}</a>
+                                                            <small class="d-block"><span class="tips">{date('Y-m-d H:i:s',$inputtime)}<!-- {format_time($inputtime)} --></span></small>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="btn btn-qiandao" style="color:#959595;">
+                                                                {php $parentid = get_category($catid, 'catid');}
+                                                                <a href="{get_category($catid, 'pclink')}" style="color:#959595;" title="{get_category($catid, 'catname')}"> # {get_category($catid, 'catname')}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="author-fieldsa"></div>
+                                                </div>
+                                            </div>
+                                            <h1><a href="{$url}">{$title}</a></h1>
+                                        </header>
+                                      <div class="container">
+                                    <div class="entry-wrapper">
+                                            <div class="entry-content u-text-format u-clearfix">
+                                                {if $allow_read}{else}
+                                                <blockquote>
+                                                    <p>{str_cut($description, 260)}</p>
+                                                </blockquote>{/if}
+                                                <p>
+                                                    <!-- 收费阅读 -->
+                                                    {if $allow_read} {$content} {else}
+                                                    <div class="ripay-content card mb-4">
+                                                        <div class="card-body">
+                                                            <span class="badge badge-info-lighten">
+	                                                          <i class="fa fa-key"></i> 隐藏内容
+	                                                           </span>
+                                                               <div class="d-flex justify-content-center">
+                                                                <div class="text-center mb-4">
+                                                                    <p class="text-muted m-0">全部内容需要权限查看或支付购买</p>
+                                                                    <ul class="pricing-options">
+                                                                        <li>
+                                                                         <b>{$readpoint} {if $paytype==1} 积分{else}U币{/if}</b>
+																		</li>
+                                                                        </ul>
+																		<form action="{$pay_url}" method="post">
+		                                                                <input type="submit" name="dosubmit" value="购买内容" style="font-size: 14px;width: 60%;">
+		                                                         </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {/if}
+                                                    <!-- 收费阅读 -->
+                                                </p>
+                                            </div>
+											<!-- 喜欢收藏 -->
+			                               <p><div id="yzmcms_digg_div">
+				                            <div class="digg_up" onclick="digg('{U('digg/init')}', {$modelid}, {$id}, 1)"><a><i class="fujian icon-xihuan"></i> 喜欢</a></div>
+				                            <div class="favorite" href="javascript:;" onclick="add_favorite('{$title}');" id="favorite"><a><i class="fa fa-star"></i> 收藏</a></div>
+			                                 </div></p><!-- 喜欢收藏 -->
+                                            <div id="pay-single-box">
+                                            </div>
+                                            <!-- <div class="entry-tags">
+                                                <span><i class="fa fa-tags"></i></span>&nbsp;
+												<a href="{SITE_URL}sousuo/index/init.html?m=search&c=index&a=init&modelid=0&q={$keywords}" target="_blank" rel="tag"> {$keywords}
+							                </a>
+                                            </div> -->
+                                        </div>
+                                            <div class="entry-footer">
+                                            <ul class="post-meta-boxa">
+											<li class="meta-date">
+											<script src="{STATIC_URL}meishiu/js/common.min.js" charset="utf-8"></script>
+											<span class="btn-orange-border copy-link"><i class="mdi mdi-magnify"></i> 复制本文链接<input name="copy" value="{$url}" class="copy-content"></span>
+											</li>
+											    <li class="meta-views"><span title="{$copyfrom}">{$copyfrom} </span></li>
+                                                <li class="meta-views"><span title="围观{$click}人次"><i class="fa fa-eye"></i> {$click}</span></li>
+												<script type="text/javascript" src="{STATIC_URL}js/digg.js"></script>
+                                                <li class="meta-comment"><span title="{$up}人喜欢"><i class="fujian icon-xihuan"></i><span id="up"> {$up}</span></span></li>
+                                            </ul>
+                                        </div>
+                                    <!--  -->
+                                </div>
+                            </article>
+                            <!-- 评论区开始 -->
+                           {m:comment_list modelid="$modelid" catid="$catid" id="$id" order="id ASC" limit="20"}
+                               <div class="question-list">  
+                                {loop $data $v}
+                                  <div class="question-item">
+                                    <div class="cao_entry_header">
+                                        <header class="entry-header">
+                                     <div class="d-flex align-items-center">
+									  <a target="_blank" href="{U('member/myhome/init', array('userid'=>$v['userid']))}" title="{$v[username]}">
+									    <img alt='' data-src="{if !empty($v['userpic'])}{$v[userpic]}{else}{STATIC_URL}images/default.gif{/if}" class='lazyload avatar avatar-96 photo' height='96' width='96' />
+										  </a>
+										    </div>
+                                             <div class="col n2">
+                                              <a title="{$v[username]}">{$v[username]}</a>
+                                              <small class="d-block"><span class="tips">
+											  {date('Y-m-d H:i:s',$v['inputtime'])}
+											 </span></small>
+                                            </div>
+                                           <div class="col-auto">
+                                          <div class="btn btn-qiandaoa">
+                                        <!-- <span class="btn btn-sm btn-wuse"><i class="fujian icon-zanzan"></i> <span>0</span></span> -->
+                                        <span class="btn btn-sm btn-wuse"><i class="fa fa-comments-o"></i> <a href="javascript:toreply('{$v[id]}');"> 回复</a></span>
+                                       </div>
+                                      </header>
+                                    </div>
+                                   <div class="py-3">{nl2br($v['content'])}</div>
+                                  <footer class="question-info">
+                                  <!--  -->
+								  </footer>
+								<div id="rep_{$v[id]}" class="none">
+								<form action="{U('comment/index/init')}" method="post"  onsubmit="return check_rep(this)">
+								<input type="hidden" name="modelid" value="{$modelid}">
+								<input type="hidden" name="catid" value="{$catid}">
+								<input type="hidden" name="id" value="{$id}">
+								<input type="hidden" name="title" value="{$title}">
+								<input type="hidden" name="url" value="{$url}">
+								<input type="hidden" name="reply" value="{$v[id]}">
+								<input type="hidden" name="reply_to" value="{$v[username]}">
+								<textarea name="content" class="textarea textarea2" placeholder="我来说两句~"></textarea>
+								{if $site['comment_code']}
+								<span class="yzm-comment-reply-code"><img src="{U('api/index/code')}" onclick="this.src=this.src+'?'" title="看不清？点击更换"><input type="text" name="code" placeholder="请输入验证码" required="required"></span>
+								{/if}
+								<input type="submit" class="button" name="dosubmit" value="提交">
+								</form>
+								</div>
+                                  <!--  
+                                            <div class="entry-footer">
+                                            <ul class="post-meta-boxa">
+											<li class="meta-date"><span><i class="fa fa-clock-o"></i> {date('Y-m-d H:i:s',$v['inputtime'])}</span></li>
+											    <li class="meta-views"><span title="{$copyfrom}"><i class="fa fa-pencil"></i> {$copyfrom}</span></li>
+                                                <li class="meta-views"><span title="围观{$click}人次"><i class="fa fa-eye"></i> {$click}</span></li>
+												<script type="text/javascript" src="{STATIC_URL}js/digg.js"></script>
+                                                <li class="meta-comment"><span title="{$up}人喜欢"><i class="fujian icon-xihuan"></i><span id="up"> {$up}</span></span></li>
+                                            </ul>
+                                        </div>
+                              <!--  -->
+                            </div>
+						{/loop}
+						{if empty($data)}
+                        <div class="question-item">
+                         <div class="py-3">
+						  <center>这篇帖子还没有收到评论，赶紧来抢沙发吧~</center>
+						   </div>
+                            </div>
+							{else}
+                           <div class="question-item">
+                            <h4>共 {get_comment_total($id, $catid, $modelid)} 条评论，<a href="{U('comment/index/more', array('sign'=>$modelid.'_'.$id))}" target="_blank">查看全部</a></h4>
+                              </div>
+						    {/if}
+							 {if $current_userid}
+                            <form action="{U('comment/index/init')}" method="post"  onsubmit="return check_comm(this)" class="question-form">
+                            <h5><i class="fujian icon-jurassic_bbs"></i> 我来说两句</h5>
+                            <div class="question-form-area">
+	                        <input type="hidden" name="modelid" value="{$modelid}">
+	                        <input type="hidden" name="catid" value="{$catid}">
+	                        <input type="hidden" name="id" value="{$id}">
+	                        <input type="hidden" name="title" value="{$title}">
+	                        <input type="hidden" name="url" value="{$url}">
+                            <textarea id="content" name="content" placeholder="输入评论内容..." class="form-control" rows="6"></textarea>
+                             </div>
+                           <button type="submit" class="button" name="dosubmit" style="float:right;"><i class="fa fa-send"></i> 提交</button><!-- <span class="emotion">表情</span> -->
+                           </form>
+						   {else}
+                           <div class="entry-navigationa">
+                            <center><h4>您需要登录后才可以回帖 <a href="{url_referer(1)}">登录</a> | <a href="{U('member/index/register')}">立即注册</a></h4></center>
+                              </div> 
+						   {/if}
+                           </div>
+                            <!-- 评论区结束 -->
+                            <div class="entry-navigation">
+                                <nav class="article-nav">
+                                    <span class="article-nav-prev">上一篇<br>
+						{$pre}</span>
+                                    <span class="article-nav-next">下一篇<br>
+						{$next}</span>
+                                </nav>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+                <div class="sidebar-column col-lg-3">
+                    <aside class="widget-area">
+                        <div class="widget widget-userinfo">
+                    <h5 class="widget-title mb-3">关于作者</h5>
+                            <div class="author-card_content">
+                                <!--  -->
+                                <div class="author_avatar">
+                                    {php $userinfo = get_memberinfo($userid, true);}
+                                    <div class="col-auto">
+                                        <a target="_blank" href="{U('member/myhome/init', array('userid'=>$userid))}"><img alt="{$userinfo[username]}" data-src="{if !empty($userinfo[userpic])}{$userinfo[userpic]}{else}{STATIC_URL}images/default.gif{/if}" class='lazyload avatar avatar-96 photo qq' height='96' width='96' title='{$userinfo[username]}' /></a>
+                                    </div>
+                                    <div class="col n2">
+                                        <a target="_blank" href="{U('member/myhome/init', array('userid'=>$userid))}" title='{$userinfo[username]}'> {$userinfo[username]}</a>
+                                        <small class="d-block"><span class="tips">{get_groupname($userinfo['groupid'])}</span> </small>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="btn btn-sm btn-white"><a href="javascript:;" id="follow" onclick="follow('{$userid}');">关注Ta</a></span>
+                                        <span class="btn btn-sm btn-white"><a href="{U('member/messages/new_messages', array('username'=>$username))}" target="_blank">发私信</a></span>
+                                    </div>
+                                </div>
+                                <div class="author-fields">
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            <span class="num">{$userinfo[fans]}</span>
+                                            <span class="d-block"><i class="fa fa-skyatlas"></i> 粉丝</span>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <span class="num">{$userinfo[experience]}</span>
+                                            <span class="d-block"><i class="fa fa-skyatlas"></i> 经验</span>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <span class="num">{$userinfo[point]}</span>
+                                            <span class="d-block"><i class="fa fa-skyatlas"></i> 积分</span>
+                                        </div>
+                                    </div>
+                                </div>
+								{if $userinfo[motto]}
+                                <div class="article-qianming">
+                                    {$userinfo[motto]}
+                                </div>
+								{else}{/if}
+                                <!--  -->
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="widget widget-userinfo">
+                            <div class="widget question-search">
+                                <h5 class="widget-title mb-3">搜索话题</h5>
+                                <form method="get" action="{U('sousuo/index/init')}" class="search-form">
+                                    <input type="hidden" name="m" value="search" />
+                                    <input type="hidden" name="modelid" value="0" id="modelid" />
+                                    <input type="text" class="form-control" placeholder="输入关键词 回车..." autocomplete="off" value="" name="q" required="required" value="0">
+                                </form>
+                                <div class="erweima">
+                                    <p>扫一扫用手机观看</p>
+                                    <div class="row">
+                                        <div id="qrcode" style="margin: 0 auto"></div>
+                                    </div>
+                                    <p>微信查看，可一键收藏</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="widget cao-widget-posts">
+                            <div class="author_avatar">
+                                {adver(2)}
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end sitecoent -->
+<script type="text/javascript" src="{STATIC_URL}meishiu/js/viewer.mini.js"></script>
+<script>
+$('#yzmcms_viewer').viewer();
+</script>
+    <script type="text/javascript">
+        check_follow();
+
+        function follow(userid) {
+            $.ajax({
+                type: 'POST',
+                url: "{U('member/index/public_follow')}",
+                data: 'userid=' + userid,
+                success: function(msg) {
+                    if (msg == 1) {
+                        $("#follow").html('已关注');
+                        layer.msg("关注成功！\n以后对方发布新文章时，会在您的会员中心显示哦！", {
+                            icon: 1
+                        });
+                    } else if (msg == 2) {
+                        $("#follow").html('加关注');
+                        layer.msg("已取消关注", {
+                            icon: 1
+                        });
+                    } else if (msg == 0) {
+                        layer.msg('请先登录！', {
+                            icon: 2
+                        });
+                    } else if (msg == -3) {
+                        layer.msg('不能关注自己哦~', {
+                            icon: 2
+                        });
+                    } else if (msg == -1) {
+                        layer.msg('该用户不存在！', {
+                            icon: 2
+                        });
+                    } else {
+                        layer.msg('非法操作！', {
+                            icon: 2
+                        });
+                    }
+                }
+            });
+        }
+
+        function check_follow() {
+            $.ajax({
+                type: 'GET',
+                url: "{U('api/index/check_follow', array('userid'=>$userid))}",
+                dataType: "json",
+                success: function(msg) {
+                    if (msg.status == 1) {
+                        $("#follow").html(msg.message);
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        function check_favorite() {
+            $.ajax({
+                type: 'POST',
+                url: '{U("api/index/check_favorite")}',
+                data: 'url=' + location.href,
+                dataType: "json",
+                success: function(msg) {
+                    if (msg.status == 1) {
+                        $("#favorite").html(msg.message);
+                    }
+                }
+            });
+        }
+
+        function add_favorite(title) {
+            $.ajax({
+                type: 'POST',
+                url: '{U("api/index/favorite")}',
+                data: 'title=' + title + '&url=' + location.href,
+                dataType: "json",
+                success: function(msg) {
+                    if (msg.status == 1) {
+                        $("#favorite").html('已藏');
+                    } else if (msg.status == 2) {
+                        $("#favorite").html('收藏');
+                    } else {
+                        alert('请先登录！');
+                    }
+                }
+            });
+        }
+
+    $(function() {
+        check_favorite();
+        $('.emotion').qqFace({
+            path: '{STATIC_URL}images/face/'
+        });
+    });
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 150,
+            height: 150
+        });
+        var token = 'params';
+        var QRCodeUrl = '{$url}'
+        qrcode.makeCode(QRCodeUrl);
+    </script>
+    {m:include "index","footer"}
